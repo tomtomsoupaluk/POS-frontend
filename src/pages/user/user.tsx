@@ -11,14 +11,16 @@ export default function product({}: Props) {
   const [userList, setUserList] = useState<any[]>([]);
   const [openCreateUserDiag, setOpenCreateUserDiag] = useState<boolean>(false);
   const [openEdituserDiag, setopenEdituserDiag] = useState<boolean>(false);
+  const [userData, setuserData] = useState<any>({});
+  const [edituserId, setEdituserId] = useState<string>("");
 
   useEffect(() => {
     try {
       const getUsers = async () => {
         const users = await userService.getUsers();
 
-        if (users.status === 200) {
-          setUserList(users.data);
+        if (users.data.success) {
+          setUserList(users.data.data);
         }
       };
 

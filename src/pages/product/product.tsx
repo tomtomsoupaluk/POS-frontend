@@ -18,9 +18,9 @@ export default function product({}: Props) {
     try {
       const getProducts = async () => {
         const products = await productService.getProducts();
-
-        if (products.status === 200) {
-          setProductList(products.data);
+        
+        if (products.data.success) {
+          setProductList(products.data.data);
         } else {
           console.log(products);
         }
@@ -38,7 +38,7 @@ export default function product({}: Props) {
 
       if (product.status === 200) {
         let newProductList = [...productList];
-        newProductList.push(product.data);
+        newProductList.push(product.data.data);
         setProductList(newProductList);
         setProductData({});
         setOpenCreateProdDiag(false);
@@ -62,7 +62,7 @@ export default function product({}: Props) {
         let index = newProductList.findIndex(
           (product) => product._id === editProductId
         );
-        newProductList[index] = product.data;
+        newProductList[index] = product.data.data;
         setProductList(newProductList);
         setProductData({});
         setEditProductId("");
@@ -118,9 +118,11 @@ export default function product({}: Props) {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4">Product Management</Typography>
-      <Button
+      <Button 
+        style={{float: "right", right:0}}
         variant="contained"
         color="primary"
+        
         onClick={handleOpenCreateProdDiag}
       >
         Create

@@ -8,7 +8,9 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 import { useNavigate } from "react-router-dom";
 
-type Props = {};
+type Props = {
+  setAuth: (isAuth: boolean) => void;
+};
 
 const listIcons = [
   { path: "/", icon: <HomeIcon /> },
@@ -16,16 +18,19 @@ const listIcons = [
   { path: "/product", icon: <InventoryIcon /> },
   { path: "/user", icon: <PeopleAltIcon /> },
   { path: "/report", icon: <ReportIcon /> },
-  { path: "/", icon: <LogoutIcon /> },
 ];
 
 const drawerWidth = 70;
 
-export default function drawer({}: Props) {
+export default function drawer(props: Props) {
   const navigate = useNavigate();
 
   const handleNavigate = (path: string) => {
     navigate(path);
+  };
+  const handlelogout = () => {
+    localStorage.removeItem("token");
+    props.setAuth(false);
   };
 
   return (
@@ -50,6 +55,18 @@ export default function drawer({}: Props) {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: "center",
+              px: 2.5,
+            }}
+            onClick={handlelogout}
+          >
+            <LogoutIcon/>
+          </ListItemButton>
+        </ListItem>
       </List>
     </Drawer>
   );
